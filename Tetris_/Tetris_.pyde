@@ -1,20 +1,21 @@
 
-#POsiciones del tablero
+#Posiciones del tablero
 posX = 4
 posY = 0
 #Propiedades tetrominos
-tetrominos = [["T",[184, 154, 58, 178]],["L",[120, 147, 60, 402]],["J",[312, 210, 57, 150]],["S",[240, 153, 240, 153]],["Z",[408, 180, 408, 180]]]
-colores = [["#FF007D"],["#67EDDC"],["#1217E0"],["#33E012"],["#E31212"]]
+"Orden:T- L - J - S - Z - O - I"
+tetrominos = [[19968, 17984, 3648, 19520],[11776, 17504, 3712, 50240],[36352, 25664, 3610, 17600],[27648, 17952, 27648, 17952],[50688, 9792, 50688, 9792],[52224, 52224, 52224, 52224],[3840, 17476, 3840, 17476]]
+colores = [["#FF007D"],["#67EDDC"],["#1217E0"],["#33E012"],["#E31212"],["#E8CD31"],["#3EF5EA"]]
 tRotation = 0
 
 #Tetromino inicial
-t = int(random(0,4))
+t = int(random(0,7))
 
 
 def setup():
     size(300,600)
     background(0,100,200)
-    frameRate(1.5)
+    frameRate(5)
     
     
 def draw():
@@ -28,11 +29,12 @@ def draw():
         if (i < 11):
             line((i*30), 0, (i*30), 600)
     drawfig()
-    if posY < 20:
+    if posY < 18:
         posY +=1
     else:
         posY = 0
-        t = int(random(0,4))
+        t = int(random(0,7))
+        print(t)
         tRotation = 0
         
 
@@ -41,9 +43,9 @@ def draw():
 def drawfig():
     push()
     fill(colores[t][0])
-    for a in range(0,9):
-        if ((tetrominos[t][1][tRotation] & (1 << 8 - a)) != 0):
-            square(((a % 3)+posX) * 30, (((a / 3) | 0)+posY) * 30, 30)
+    for a in range(0,16):
+        if ((tetrominos[t][tRotation] & (1 << 15 - a)) != 0):
+            square(((a % 4)+posX) * 30, (((a / 4) | 0)+posY) * 30, 30)
 
     pop()
     
