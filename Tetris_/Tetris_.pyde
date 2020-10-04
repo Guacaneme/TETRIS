@@ -11,10 +11,8 @@ tRotation = 0
 #Tetromino inicial
 t = int(random(0,7))
 
-game = False
-gameOver = False
-
-click = False
+juego = False
+juego_terminado = False
 
 tnext = 0
 
@@ -32,7 +30,7 @@ def draw():
     global puntaje
     global tnext
     
-    if game:
+    if juego:
         background("#101831")
         stroke(255,255,255)
         #Dibuja las líneas del tablero
@@ -51,7 +49,7 @@ def draw():
             tRotation = 0
             puntaje +=10
     
-    elif gameOver:
+    elif juego_terminado:
         print("Game Over")
         
     else:
@@ -59,26 +57,18 @@ def draw():
     
 def drawset():
     global tnext
-    #Puntaje
-    textSize(20)
-    fill(255,255,255)
+    ########Puntaje
+    propiedades("#FFFFFF","",20)
     text("PUNTAJE",360,100)
-    
-    stroke(255,255,255)
-    fill("#101831")
+    propiedades("#101831","#FFFFFF")
     rect(375,120,50,30)
-    
-    textSize(15)
-    fill(255,255,255)
+    propiedades("#FFFFFF","",15)
     text(str(puntaje),385,140)
     
-    #Pieza siguiente
-    textSize(20)
-    fill(255,255,255)
+    #######Pieza siguiente
+    propiedades("#FFFFFF","",20)
     text("SIGUIENTE",350,250)
-    
-    stroke(255,255,255)
-    fill("#101831")
+    propiedades("#101831","#FFFFFF")
     rect(340,265,120,120)
     
     if posY == 0:
@@ -127,8 +117,10 @@ def keyPressed():
         if (keyCode == UP):
             if tRotation >= 3:
                 tRotation = 0
+                posY -= 1
             else:
                 tRotation += 1
+                posY -=1
         if (keyCode == DOWN):
             posY += 2
             
@@ -141,28 +133,30 @@ def keyPressed():
                 posX -= 1
     
 def inicio():
-    global game
-    global click
+    global juego
     #######Título
     background("#101831")
-    textSize(85)
-    fill(255,255,255)
+    propiedades("#FFFFFF","",85)
     text("TETRIS",110,200)
-    textSize(85)
-    fill("#83082D")
+    propiedades("#83082D","",85)
     text("TETRIS",115,200)
+
     #######Botón para jugar
-    fill("#178124")
-    stroke("#178124")
+    propiedades("#178124","#178124")
     rect(205,310,90,40)
-    fill(255,255,255)
-    stroke(255,255,255)
-    triangle(135+100,310+10,135+100,330+10,165+100,320+10)
-    fill("#5BED6D")
-    stroke("#5BED6D")
-    triangle(140+100,310+10,140+100,330+10,170+100,320+10)
-    if mouseX > 205 and mouseX < 295 and mouseY > 310 and mouseY < 350 and mousePressed:
-        game = True
+    propiedades("#FFFFFF","#FFFFFF")
+    triangle(235,320,235,340,265,330)
+    propiedades("#5BED6D","#5BED6D")
+    triangle(240,320,240,340,270,330)
+
+        if mouseX > 205 and mouseX < 295 and mouseY > 310 and mouseY < 350 and mousePressed:
+        juego = True
         frameRate(2)
         print("Inició el juego")
- 
+        
+def propiedades(color_1,color_2 ="",tam =""):
+    fill(color_1)
+    if color_2 != "":
+        stroke(color_2)
+    if tam != "":
+        textSize(tam)
