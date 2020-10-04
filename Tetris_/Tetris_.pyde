@@ -1,5 +1,5 @@
 #Tablero y posiciones
-tablero = [[0 for x in range(0,10)]for y in range(0,20)]
+tablero = [["N" for x in range(0,10)]for y in range(0,20)]
 posX = 4
 posY = 0
 #Propiedades tetrominos
@@ -16,7 +16,10 @@ juego_terminado = False
 
 tnext = 0
 
+
 puntaje = 0
+
+pos_fig_tab = []
 
 def setup():
     size(500,620)
@@ -39,8 +42,10 @@ def draw():
             if (i < 11):
                 line((i*30)+10, 10, (i*30)+10, 610)
         drawset()
-        drawfig()
-        if posY < 18:
+        #drawfig()
+        ficha_en_tablero()
+        drawtablero()
+        if posY < 17:
             posY +=1
         else:
             posX = 4
@@ -87,7 +92,7 @@ def drawset():
     
     
 
-
+"""
 def drawfig():
     push()
     fill(colores[t][0])
@@ -95,18 +100,34 @@ def drawfig():
         if ((tetrominos[t][tRotation] & (1 << 15 - a)) != 0):
             square((((a % 4)+posX) * 30)+10, ((((a / 4) | 0)+posY) * 30)+10, 30)
     pop()
-    
+"""
     
 def drawtablero():
-    for f in range(21):
-        for c in range(11):
+    global pos_fig_tab
+    #Quita la ficha del tablero
+    for w in range(0,7,2):
+        print("QUITÓ")
+        tablero[pos_fig_tab[w+1]-1][pos_fig_tab[w]] = "N"
+        
+    #Pone la ficha en el tablero
+    for w in range(0,7,2):
+        print("PUSO")
+        print(pos_fig_tab[w+1], pos_fig_tab[w])
+        tablero[pos_fig_tab[w+1]][pos_fig_tab[w]] = t
+    
+    for f in range(20):
+        for c in range(10):
             lugar = tablero[f][c]
-            if lugar != 0:
+            if lugar != "N":
                 fill(colores[tablero[f][c]][0])
                 square((c*30)+10,(f*30)+10,30)
     
-#def ficha_en_tablero():
-        
+def ficha_en_tablero():
+    global pos_fig_tab
+    pos_fig_tab = []
+    for a in range(0,16):
+        if ((tetrominos[t][tRotation] & (1 << 15 - a)) != 0):
+            pos_fig_tab += [((a % 4)+posX),(((a / 4) | 0)+posY)]
     
     
 def keyPressed():
@@ -148,15 +169,16 @@ def inicio():
     triangle(235,320,235,340,265,330)
     propiedades("#5BED6D","#5BED6D")
     triangle(240,320,240,340,270,330)
-
-        if mouseX > 205 and mouseX < 295 and mouseY > 310 and mouseY < 350 and mousePressed:
+    
+    if mouseX > 205 and mouseX < 295 and mouseY > 310 and mouseY < 350 and mousePressed:
         juego = True
         frameRate(2)
         print("Inició el juego")
-        
+    
 def propiedades(color_1,color_2 ="",tam =""):
     fill(color_1)
     if color_2 != "":
         stroke(color_2)
     if tam != "":
         textSize(tam)
+        
