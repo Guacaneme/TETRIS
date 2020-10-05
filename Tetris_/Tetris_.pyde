@@ -48,16 +48,10 @@ def draw():
         ficha_en_tablero()
         drawtablero()
         borrar_filas()
-        drawtablero()
-        print(tRotation, t, posX, posY)
         if posY < 17:
             if posY == 16 and t == 6 and tRotation%2 == 1:
                 if tablero[0][4] == "N" and tablero[0][5] == "N" and tablero[1][4] == "N" and tablero[1][5] == "N":
-                    posX = 4
-                    posY = 0
-                    t = tnext
-                    tRotation = 0
-                    puntaje +=10
+                    nuevo_tetromino()
                 else:
                     juego = False
                     juego_terminado = True
@@ -66,11 +60,7 @@ def draw():
                     posY +=1
                 else:
                     if tablero[0][4] == "N" and tablero[0][5] == "N" and tablero[1][4] == "N" and tablero[1][5] == "N":
-                        posX = 4
-                        posY = 0
-                        t = tnext
-                        tRotation = 0
-                        puntaje +=10
+                        nuevo_tetromino()
                     else:
                         juego = False
                         juego_terminado = True              
@@ -80,11 +70,7 @@ def draw():
                     posY +=1
                 else:
                     if tablero[0][4] == "N" and tablero[0][5] == "N" and tablero[1][4] == "N" and tablero[1][5] == "N":
-                        posX = 4
-                        posY = 0
-                        t = tnext
-                        tRotation = 0
-                        puntaje +=10
+                        nuevo_tetromino()
                     else:
                         juego = False
                         juego_terminado = True
@@ -93,31 +79,19 @@ def draw():
                     posY += 1
                 else:
                     if tablero[2][4] == "N" and tablero[2][5] == "N" and tablero[1][4] == "N" and tablero[1][5] == "N":
-                        posX = 4
-                        posY = 0
-                        t = tnext
-                        tRotation = 0
-                        puntaje +=10
+                        nuevo_tetromino()
                     else:
                         juego = False
                         juego_terminado = True
             else:
                 if tablero[0][4] == "N" and tablero[0][5] == "N" and tablero[1][4] == "N" and tablero[1][5] == "N":
-                    posX = 4
-                    posY = 0
-                    t = tnext
-                    tRotation = 0
-                    puntaje +=10
+                    nuevo_tetromino()
                 else:
                     juego = False
                     juego_terminado = True
         else:
             if tablero[0][4] == "N" and tablero[0][5] == "N" and tablero[1][4] == "N" and tablero[1][5] == "N":
-                posX = 4
-                posY = 0
-                t = tnext
-                tRotation = 0
-                puntaje +=10
+                nuevo_tetromino()
             else:
                 juego = False
                 juego_terminado = True
@@ -137,10 +111,17 @@ def draw():
         propiedades("#FFFFFF","",35)
         text("PUNTAJE : "+str(puntaje),100,480)        
         
-        print("Game Over")
         
     else:
         inicio()
+        
+def nuevo_tetromino():        
+    posX = 4
+    posY = 0
+    t = tnext
+    tRotation = 0
+    puntaje +=10
+    
     
 def borrar_fig():
     for w in range(0,7,2):
@@ -151,8 +132,6 @@ def drawtablero():
     global pos_fig_tab
     
     cambiar_pos_fig()
-    
-    print("Bajó")
     
     for f in range(20):
         for c in range(10):
@@ -260,9 +239,7 @@ def keyPressed():
                     ficha_en_tablero()
                     borrar_fig()
                     posX -=1
-                    
-
-                
+                                
 
 def inicio():
     global juego
@@ -284,7 +261,6 @@ def inicio():
     if mouseX > 205 and mouseX < 295 and mouseY > 310 and mouseY < 350 and mousePressed:
         juego = True
         frameRate(2)
-        print("Inició el juego")
     
 def drawset():
     global tnext
@@ -316,17 +292,6 @@ def drawset():
         if ((tetrominos[tnext][0] & (1 << 15 - a)) != 0):
             square(((a%4)*30)+ix,(((a/4)|0)*30)+iy,30)
     
-    
-
-"""
-def drawfig():
-    push()
-    fill(colores[t][0])
-    for a in range(0,16):
-        if ((tetrominos[t][tRotation] & (1 << 15 - a)) != 0):
-            square((((a % 4)+posX) * 30)+10, ((((a / 4) | 0)+posY) * 30)+10, 30)
-    pop()
-"""
     
 def propiedades(color_1,color_2 ="",tam =""):
     fill(color_1)
